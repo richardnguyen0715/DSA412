@@ -1,0 +1,713 @@
+#include"stack.h"
+#include"queue.h"
+#include"BST.h"
+#include"AVLTree.h"
+using namespace std;
+
+void checkStack();
+
+void checkQueue();
+
+void checkBST();
+
+void checkAVLTree();
+
+void mainMenu() {
+	int c = 0;
+	while (c != -1) {
+		system("cls");
+		cout << "Which structures do you want to check? \n";
+		cout << "1__________Stack\n";
+		cout << "2__________Queue\n";
+		cout << "3__________Binary Search Tree\n";
+		cout << "4__________AVL Tree\n";
+		cout << "(-1)_________Exit\n";
+		cin >> c;
+		switch (c) {
+		case 1: {
+			checkStack();
+			break;
+		}
+		case 2: {
+			checkQueue();
+			break;
+		}
+		case 3: {
+			checkBST();
+			break;
+		}
+		case 4: {
+			checkAVLTree();
+			break;
+		}
+		default:
+			break;
+		}
+	}
+}
+
+void checkStack() {
+	functionStack::stack<int> s;
+	s.init();
+	int c = 0;
+	while (c != -1) {
+		system("cls");
+		cout << "Which function do you want to check? \n";
+		cout << "1__________initialize a stack\n";
+		cout << "2__________deinitialize a stack\n";
+		cout << "3__________is the stack empty?\n";
+		cout << "4__________size of stack\n";
+		cout << "5__________value of top\n";
+		cout << "6__________push a value into stack\n";
+		cout << "7__________pop the top of stack\n";
+		cout << "8__________print values of stack\n";
+		cout << "-1_________exit\n";
+		cin >> c;
+		switch (c) {
+		case 1: {
+			s.init();
+			if (s.empty() == true) {
+				cout << "initialize successfully!\n";
+			}
+			else {
+				cout << "initialize unsuccessfully\n";
+			}
+			break;
+		}
+		case 2: {
+			s.deinit();
+			if (s.empty() == true) {
+				cout << "initialize successfully!\n";
+			}
+			else {
+				cout << "initialize unsuccessfully\n";
+			}
+			break;
+		}
+		case 3: {
+			if (s.empty() == true) {
+				cout << "stack is empty!\n";
+			}
+			else {
+				cout << "stack is not empty!\n";
+			}
+			break;
+		}
+		case 4: {
+			cout << "size of stack: " << s.size() << "\n";
+			break;
+		}
+		case 5: {
+			cout << "value of top: ";
+			if (s.empty() == true) cout << "Stack is empty! \n";
+			else cout << s.top->key << "\n";
+			break;
+		}
+		case 6: {
+			cout << "push a value into a stack! \n";
+			int k = 0;
+			cout << "please enter the value: ";
+			cin >> k;
+			if (s.push(k) == true) {
+				cout << "push succesfully!\n";
+			}
+			else {
+				cout << "push unseccesfully\n";
+			}
+			break;
+		}
+		case 7: {
+			if (s.pop() == true) {
+				cout << "pop susccesfully!\n";
+			}
+			else {
+				cout << "pop unseccesfully!\n";
+			}
+			break;
+		}
+		case 8: {
+			cout << "stack is: ";
+			s.print();
+		}
+		default:
+			break;
+		}
+		system("pause");
+	}
+}
+
+void checkQueue() {
+	functionQueue::queue<int> q;
+	q.init();
+	int c = 0;
+	while (c != -1) {
+		system("cls");
+		cout << "Which function do you want to check? \n";
+		cout << "1__________initialize a queue\n";
+		cout << "2__________deinitialize a queue\n";
+		cout << "3__________is the queue empty?\n";
+		cout << "4__________size of queue\n";
+		cout << "5__________value of top\n";
+		cout << "6__________push a value into queue\n";
+		cout << "7__________pop the top of queue\n";
+		cout << "8__________print values of queue\n";
+		cout << "-1_________exit\n";
+		cin >> c;
+		switch (c) {
+		case 1: {
+			q.init();
+			if (q.empty() == true) {
+				cout << "initialize successfully!\n";
+			}
+			else {
+				cout << "initialize unsuccessfully\n";
+			}
+			break;
+		}
+		case 2: {
+			q.deinit();
+			if (q.empty() == true) {
+				cout << "initialize successfully!\n";
+			}
+			else {
+				cout << "initialize unsuccessfully\n";
+			}
+			break;
+		}
+		case 3: {
+			if (q.empty() == true) {
+				cout << "stack is empty!\n";
+			}
+			else {
+				cout << "stack is not empty!\n";
+			}
+			break;
+		}
+		case 4: {
+			cout << "size of stack: " << q.size() << "\n";
+			break;
+		}
+		case 5: {
+			cout << "value of top: ";
+			if (q.empty() == true) cout << "Stack is empty! \n";
+			else cout << q.front->key << "\n";
+			break;
+		}
+		case 6: {
+			cout << "push a value into a stack! \n";
+			int k = 0;
+			cout << "please enter the value: ";
+			cin >> k;
+			if (q.push(k) == true) {
+				cout << "push succesfully!\n";
+			}
+			else {
+				cout << "push unseccesfully\n";
+			}
+			break;
+		}
+		case 7: {
+			if (q.pop() == true) {
+				cout << "pop susccesfully!\n";
+			}
+			else {
+				cout << "pop unseccesfully!\n";
+			}
+			break;
+		}
+		case 8: {
+			cout << "Queue is: ";
+			q.print();
+		}
+		default:
+			break;
+		}
+		system("pause");
+	}
+}
+
+void checkBST() {
+	BST::Tree<int> tree;
+	tree.init();
+	int c = 0;
+	while (c != -1) {
+		system("cls");
+		cout << "Which function do you want to check? \n";
+		cout << "1__________initialize a tree\n";
+		cout << "2__________deinitialize a tree\n";
+		cout << "3__________preOder travesel - NLR\n";
+		cout << "4__________inOder travesel - LNR\n";
+		cout << "5__________posOder travesel - LRN\n";
+		cout << "6__________levelOder travesel\n";
+		cout << "7__________Seach a key in tree\n";
+		cout << "8__________Insert a node into a tree\n";
+		cout << "9__________Remove a node in tree\n";
+		cout << "10__________Create tree from an array\n";
+		cout << "11__________Height of tree\n";
+		cout << "12__________Create an array from a tree\n";
+		cout << "13__________Count the number of nodes in a tree\n";
+		cout << "14__________Return sum of nodes in a tree\n";
+		cout << "15__________Height of node has a default key\n";
+		cout << "16__________Level of a node in tree\n";
+		cout << "17__________Count the number of node leaf in a tree\n";
+		cout << "18__________Count the number of node which is less than a key in a tree\n";
+		cout << "19__________Count the number of node which is greater than a key in a tree\n";
+		cout << "20__________Is the tree a binary search tree?\n";
+		cout << "21__________Is the tree a full binary search tree?\n";
+		cout << "-1_________exit\n";
+		cin >> c;
+		switch (c) {
+		case 1: {
+			tree.init();
+			if (tree.empty() == true ) {
+				cout << "initialize successfully!\n";
+			}
+			else {
+				cout << "initialize unsuccessfully\n";
+			}
+			break;
+		}
+		case 2: {
+			tree.deinit(tree.root);
+			if (tree.empty() == true) {
+				cout << "initialize successfully!\n";
+			}
+			else {
+				cout << "initialize unsuccessfully\n";
+			}
+			break;
+		}
+		case 3: {
+			if (tree.empty() == true) {
+				cout << "stack is empty!\n";
+			}
+			else {
+				cout << "preOder: ";
+				tree.NLR(tree.root);
+				cout << endl;
+			}
+			break;
+		}
+		case 4: {
+			if (tree.empty() == true) {
+				cout << "stack is empty!\n";
+			}
+			else {
+				cout << "inOder: ";
+				tree.LNR(tree.root);
+				cout << endl;
+			}
+			break;
+		}
+		case 5: {
+			if (tree.empty() == true) {
+				cout << "stack is empty!\n";
+			}
+			else {
+				cout << "posOder: ";
+				tree.LRN(tree.root);
+				cout << endl;
+			}
+			break;
+		}
+		case 6: {
+			cout << "levelOder travesel: \n";
+			if (tree.empty() == true) {
+				cout << "stack is empty!\n";
+			}
+			else {
+				cout << "levelOder: \n";
+				tree.levelOder(tree.root);
+				cout << endl;
+			}
+			break;
+		}
+		case 7: {
+			cout<<"Seach a key in tree\n"; 
+			cout << "Enter a key: ";
+			int k = 0;
+			cin >> k;
+			BST::Node<int>* temp = tree.search(tree.root, k);
+			if (temp == nullptr) {
+				cout << "Key is not exist!\n";
+			}
+			else {
+				cout << "Found!\n";
+			}
+			break;
+		}
+		case 8: {
+			cout<<"Insert a node into a tree\n"; 
+			cout << "Enter a key: ";
+			int k = 0;
+			cin >> k;
+			if (tree.insert(tree.root, k) == true) {
+				cout << "Push successfully!\n";
+			}
+			else {
+				cout << "Push unsuccsessfully!\n";
+			}
+			break;
+		}
+		case 9: {
+			cout<<"Remove a node in tree\n";
+			cout << "Enter a key: ";
+			int k = 0;
+			cin >> k;
+			if (tree.remove(tree.root, k) == true) {
+				cout << "Remove successfully!\n";
+			}
+			else {
+				cout << "Remove unsuccsessfully!\n";
+			}
+			break;
+		}
+		case 10: {
+			cout<<"Create tree from an array\n"; 
+			cout << "Enter the number of node: ";
+			int n = 0; cin >> n;
+			int* a = new int[n];
+			cout << "Enter the value of node: ";
+			for (int i = 0; i < n; i++) {
+				int k = 0;
+				cin >> k;
+				a[i] = k;
+			}
+			tree.root = tree.arrayToTree(a, n);
+			if (tree.empty() == true) {
+				cout << "Creat failed!\n";
+			}
+			else {
+				cout << "Creat successed!\n";
+			}
+			break;
+		}
+		case 11: { 
+			cout << "Height of Tree: " << tree.height(tree.root) << endl;
+			break;
+		}
+		case 12: {
+			cout<<"Create an array from a tree\n"; 
+			int n = 0;
+			int* a = new int[n];
+			tree.treeToArray(a, n, tree.root);
+			if (n != 0) {
+				cout << "Array: ";
+				for (int i = 0; i < n; i++) {
+					cout << a[i] << " ";
+				}
+			}
+			else {
+				cout << "Tree is empty!\n";
+			}
+			break;
+		}
+		case 13: {
+			cout <<"The number of node is: "<< tree.countNode(tree.root)<<endl;
+			break;
+		}
+		case 14: {
+			cout << "Sum of nodes is: " << tree.sumNode(tree.root) << endl;
+			break;
+		}
+		case 15: {
+			cout<<"Height of node has a default key\n"; 
+			cout << "Enter the key: ";
+			int n;
+			cin >> n;
+			cout << "Height of node is: " << tree.heightKey(tree.root, n) << endl;
+			break;
+		}
+		case 16: {
+			cout << "Level of a node in tree\n";
+			cout << "Enter the key: ";
+			int n;
+			cin >> n;
+			BST::Node<int>* temp = tree.search(tree.root, n);
+			if (temp != nullptr) {
+				cout << "Level of node is: " << tree.levelOfNode(tree.root, temp) << endl;
+			}
+			else {
+				cout << "key is not exist!\n";
+			}
+			break;
+		}
+		case 17: {
+			cout << "The number of leaf in tree is: " << tree.countLeaf(tree.root) << endl;
+			break;
+		}
+		case 18: {
+			cout<<"Count the number of node which is less than a key in a tree\n"; 
+			cout << "Enter a key: ";
+			int n; cin >> n;
+			cout << "The number of node which is less than this key is: " << tree.countLess(tree.root, n) << endl;
+			break;
+		}
+		case 19: {
+			cout<<"Count the number of node which is greater than a key in a tree\n";
+			cout << "Enter a key: ";
+			int n; cin >> n;
+			cout << "The number of node which is greater than this key is: " << tree.countGreat(tree.root, n) << endl;
+			break;
+		}
+		case 20: {
+			cout << "Is it a binary search tree?\n";
+			if (tree.isBST(tree.root) == true) cout << "YES\n";
+			else cout << "NO\n";
+			break;
+		}
+		case 21: {
+			cout << "Is it a full binary search tree?\n";
+			if (tree.isFullBST(tree.root) == true) cout << "YES\n";
+			else cout << "NO\n";
+		}
+		default:
+			break;
+		}
+		system("pause");
+	}
+}
+
+void checkAVLTree() {
+	AVLTree::Tree<int> tree;
+	tree.init();
+	int c = 0;
+	while (c != -1) {
+		system("cls");
+		cout << "Which function do you want to check? \n";
+		cout << "1__________initialize a tree\n";
+		cout << "2__________deinitialize a tree\n";
+		cout << "3__________preOder travesel - NLR\n";
+		cout << "4__________inOder travesel - LNR\n";
+		cout << "5__________posOder travesel - LRN\n";
+		cout << "6__________levelOder travesel\n";
+		cout << "7__________Seach a key in tree\n";
+		cout << "8__________Insert a node into a tree\n";
+		cout << "9__________Remove a node in tree\n";
+		cout << "10__________Create tree from an array\n";
+		cout << "11__________Height of tree\n";
+		cout << "12__________Create an array from a tree\n";
+		cout << "13__________Count the number of nodes in a tree\n";
+		cout << "14__________Return sum of nodes in a tree\n";
+		cout << "15__________Height of node has a default key\n";
+		cout << "16__________Level of a node in tree\n";
+		cout << "17__________Count the number of node leaf in a tree\n";
+		cout << "18__________Count the number of node which is less than a key in a tree\n";
+		cout << "19__________Count the number of node which is greater than a key in a tree\n";
+		cout << "20__________Is the tree a binary search tree?\n";
+		cout << "21__________Is the tree a AVL binary search tree?\n";
+		cout << "22__________Show height of all nodes in a tree!\n";
+		cout << "-1_________exit\n";
+		cin >> c;
+		switch (c) {
+		case 1: {
+			tree.init();
+			if (tree.empty() == true) {
+				cout << "initialize successfully!\n";
+			}
+			else {
+				cout << "initialize unsuccessfully\n";
+			}
+			break;
+		}
+		case 2: {
+			tree.deinit(tree.root);
+			if (tree.empty() == true) {
+				cout << "initialize successfully!\n";
+			}
+			else {
+				cout << "initialize unsuccessfully\n";
+			}
+			break;
+		}
+		case 3: {
+			if (tree.empty() == true) {
+				cout << "stack is empty!\n";
+			}
+			else {
+				cout << "preOder: ";
+				tree.NLR(tree.root);
+				cout << endl;
+			}
+			break;
+		}
+		case 4: {
+			if (tree.empty() == true) {
+				cout << "stack is empty!\n";
+			}
+			else {
+				cout << "inOder: ";
+				tree.LNR(tree.root);
+				cout << endl;
+			}
+			break;
+		}
+		case 5: {
+			if (tree.empty() == true) {
+				cout << "stack is empty!\n";
+			}
+			else {
+				cout << "posOder: ";
+				tree.LRN(tree.root);
+				cout << endl;
+			}
+			break;
+		}
+		case 6: {
+			cout << "levelOder travesel: \n";
+			if (tree.empty() == true) {
+				cout << "stack is empty!\n";
+			}
+			else {
+				cout << "levelOder: \n";
+				tree.levelOder(tree.root);
+				cout << endl;
+			}
+			break;
+		}
+		case 7: {
+			cout << "Seach a key in tree\n";
+			cout << "Enter a key: ";
+			int k = 0;
+			cin >> k;
+			AVLTree::Node<int>* temp = tree.search(tree.root, k);
+			if (temp == nullptr) {
+				cout << "Key is not exist!\n";
+			}
+			else {
+				cout << "Found!\n";
+			}
+			break;
+		}
+		case 8: {
+			cout << "Insert a node into a tree\n";
+			cout << "Enter a key: ";
+			int k = 0;
+			cin >> k;
+			tree.insert(tree.root, k);
+			break;
+		}
+		case 9: {
+			cout << "Remove a node in tree\n";
+			cout << "Enter a key: ";
+			int k = 0;
+			cin >> k;
+			tree.remove(tree.root, k);
+			break;
+		}
+		case 10: {
+			cout << "Create tree from an array\n";
+			cout << "Enter the number of node: ";
+			int n = 0; cin >> n;
+			int* a = new int[n];
+			cout << "Enter the value of node: ";
+			for (int i = 0; i < n; i++) {
+				int k = 0;
+				cin >> k;
+				a[i] = k;
+			}
+			tree.root = tree.arrayToTree(a, n);
+			if (tree.empty() == true) {
+				cout << "Creat failed!\n";
+			}
+			else {
+				cout << "Creat successed!\n";
+			}
+			break;
+		}
+		case 11: {
+			cout << "Height of Tree: " << tree.height(tree.root) << endl;
+			break;
+		}
+		case 12: {
+			cout << "Create an array from a tree\n";
+			int n = 0;
+			int* a = new int[n];
+			tree.treeToArray(a, n, tree.root);
+			if (n != 0) {
+				cout << "Array: ";
+				for (int i = 0; i < n; i++) {
+					cout << a[i] << " ";
+				}
+			}
+			else {
+				cout << "Tree is empty!\n";
+			}
+			break;
+		}
+		case 13: {
+			cout << "The number of node is: " << tree.countNode(tree.root) << endl;
+			break;
+		}
+		case 14: {
+			cout << "Sum of nodes is: " << tree.sumNode(tree.root) << endl;
+			break;
+		}
+		case 15: {
+			cout << "Height of node has a default key\n";
+			cout << "Enter the key: ";
+			int n;
+			cin >> n;
+			cout << "Height of node is: " << tree.heightKey(tree.root, n) << endl;
+			break;
+		}
+		case 16: {
+			cout << "Level of a node in tree\n";
+			cout << "Enter the key: ";
+			int n;
+			cin >> n;
+			AVLTree::Node<int>* temp = tree.search(tree.root, n);
+			if (temp != nullptr) {
+				cout << "Level of node is: " << tree.levelOfNode(tree.root, temp) << endl;
+			}
+			else {
+				cout << "key is not exist!\n";
+			}
+			break;
+		}
+		case 17: {
+			cout << "The number of leaf in tree is: " << tree.countLeaf(tree.root) << endl;
+			break;
+		}
+		case 18: {
+			cout << "Count the number of node which is less than a key in a tree\n";
+			cout << "Enter a key: ";
+			int n; cin >> n;
+			cout << "The number of node which is less than this key is: " << tree.countLess(tree.root, n) << endl;
+			break;
+		}
+		case 19: {
+			cout << "Count the number of node which is greater than a key in a tree\n";
+			cout << "Enter a key: ";
+			int n; cin >> n;
+			cout << "The number of node which is greater than this key is: " << tree.countGreat(tree.root, n) << endl;
+			break;
+		}
+		case 20: {
+			cout << "Is it a binary search tree?\n";
+			if (tree.isBST(tree.root) == true) cout << "YES\n";
+			else cout << "NO\n";
+			break;
+		}
+		case 21: {
+			cout << "Is it a AVL binary search tree?\n";
+			if (tree.isAVL(tree.root) == true) cout << "YES\n";
+			else cout << "NO\n";
+		}
+		case 22: {
+			cout << "Show height of all nodes in a tree: \n";
+			tree.showHeight(tree.root);
+			cout << endl;
+			break;
+		}
+		default:
+			break;
+		}
+		system("pause");
+	}
+}
+
+int main() {
+	mainMenu();
+	return 0;
+}
