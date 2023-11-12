@@ -1,11 +1,7 @@
 #pragma once
 #include<iostream>
-
 using namespace std;
-
-
 namespace functionStack {
-
 	template<typename T>
 	struct Node {
 		T key;
