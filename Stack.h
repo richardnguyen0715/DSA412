@@ -1,106 +1,92 @@
 #pragma once
 #include<iostream>
+
 using namespace std;
-namespace functionStack {
-	template<typename T>
-	struct Node {
-		T key;
-		Node* next;
-	};
 
-	template<typename T>
-	struct stack {
+template<typename T>
+struct Node {
+	T data;
+	Node* next;
+};
 
-		// Top of stack
-		Node<T>* top;
-		
-		//Creat a new node 
-		Node<T>* creatNode(T data) {
-			Node<T>* temp = new Node<T>;
-			temp->key = data;
-			temp->next = nullptr;
-			return temp;
-		}
+template<typename T>
+Node<T>* makeNode(T key) {
+	Node<T>* newNode = new Node<T>;
+	if (newNode != nullptr) {
+		newNode->data = key;
+		newNode->next = nullptr;
+		return newNode;
+	}
+	return nullptr;
+}
 
-		//initilizie a stack
-		void init() {
-			top = nullptr;
-		}
+template<typename T>
+struct stack {
+	Node<T>* top;
 
-		//Is the stack empty?
-		bool empty() {
-			if (top == nullptr) return true;
-			return false;
-		}
+	// Constructor
+	void init() {
+		top = nullptr;
+	}
 
-		//Delete all nodes of stack
-		void deinit() {
-			if (empty() == true) return;
-			Node<T>* temp = nullptr;
-			while (top != nullptr) {
-				temp = top;
-				top = top->next;
-				delete temp;
-			}
-			top == nullptr;
-		}
-
-		//Return size of stack
-		int size() {
-			if (empty() == true) return 0;
-			int cnt = 0;
+	// Destructor
+	void deinit() {
+		while (top != nullptr) {
 			Node<T>* temp = top;
-			while (temp != nullptr) {
-				cnt++;
-				temp = temp->next;
-			}
-			return cnt;
-		}
-
-		//Push a node into the top of stack
-		bool push(T data) {
-			Node<T>* temp = creatNode(data);
-			if (temp == nullptr) {
-				return false;
-			}
-			temp->next = top;
-			top = temp;
-			return true;
-		}
-
-		//Pop the top out of a stack
-		bool pop() {
-			if (empty() == true) {
-				throw "out of range";
-				return false;
-			}
-			Node<T>* temp = top;
-			if (temp == nullptr) {
-				throw "Can not creat node!";
-				return false;
-			}
 			top = top->next;
 			delete temp;
 			temp = nullptr;
-			return true;
 		}
+	}
 
-		void print() {
-			if (empty() == true) {
-				cout << "Stack is empty!";
-				return;
-			}
-			else {
-				Node<T>* temp = top;
-				while (temp != nullptr) {
-					cout << temp->key << " ";
-					temp = temp->next;
-				}
-			}
+	// Is the stack empty?
+	bool empty() {
+		if (top == nullptr) return true;
+		return false;
+	}
+	
+	// Push an element into stack
+	bool push(T key) {
+		Node<T>* newNode = makeNode(key);
+		if (newNode == nullptr) return false;
+		newNode->next = top;
+		top = newNode;
+		return true;
+	}
+
+	// Pop the top out of stack
+	bool pop() {
+		if (top == nullptr) return false;
+		Node<T>* newNode = top;
+		top = top->next;
+		delete newNode;
+		newNode = nullptr;
+		return true;
+	}
+
+	// Show value of the top node of stack
+	T peek() {
+		return top->data;
+	}
+
+	// Return the size of stack
+	int size() {
+		Node<T>* runNode = top;
+		int cnt = 0;
+		while (runNode != nullptr) {
+			cnt++;
+			runNode = runNode->next;
 		}
+		return cnt;
+	}
 
-	//Struct queue
-	};
+	//print all value of a stack
+	void print() {
+		Node<T>* runNode = top;
+		while (runNode != nullptr) {
+			cout << runNode->data << " ";
+			runNode = runNode->next;
+		}
+	}
 
-//Namespace stack
-}
+};
