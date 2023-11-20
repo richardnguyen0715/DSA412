@@ -1,310 +1,275 @@
 #pragma once
-#include<iostream>
-#include<math.h>
 #include"stack.h"
 #include"queue.h"
 
-namespace BST {
+using namespace std;
 
-	template<typename T>
-	struct Node {
-		T key;
-		Node* left;
-		Node* right;
-	};
+template<typename T>
+struct bstNode {
+	T data;
+	bstNode* left;
+	bstNode* right;
+};
 
-	template<typename T>
-	struct Tree {
+template<typename T>
+bstNode<T>* makeBstNode(T key) {
+	bstNode<T>* newNode = new bstNode<T>;
+	if (newNode != nullptr) {
+		newNode->data = key;
+		newNode->left = nullptr;
+		newNode->right = nullptr;
+	}
+	return newNode;
+}
 
-		Node<T>* root;
+template<typename T>
+struct bstTree {
+	bstNode<T>* root;
 
-		//initialize a binary search tree
-		void init() {
-			root == nullptr;
-		}
+	void init() {
+		root = nullptr;
+	}
 
-		//deinitialize a binary search tree
-		void deinit(Node<T>* &root) {
-			if (root == nullptr) return;
-			deinit(root->left);
-			deinit(root->right);
-			delete root;
-		}
+	void empty() {
+		if (root == nullptr) return true;
+		return false;
+	}
 
-		//is the tree empty?
-		bool empty() {
-			if (root == nullptr) return true;
-			return false;
-		}
+	void deinit(bstNode<T>* root) {
+		if (root == nullptr) return;
+		deinit(root->left);
+		deinit(root->right);
+		delete root;
+		root = nullptr;
+	}
 
-		//create a new node
-		Node<T>* creatNode(T data) {
-			Node<T>* temp = new Node<T>;
-			temp->key = data;
-			temp->left = nullptr;
-			temp->right = nullptr;
-			return temp;
-		}
+	// Overloading
+	void deinit() {
+		deinit(root);
+	}
 
-		//  PreOder Travesel - NLR
-		void NLR(Node<T>* root) {
-			if (root == nullptr) return;
-			cout << root->key << " ";
-			NLR(root->left);
-			NLR(root->right);
-		}
+	// Preoder travesel
+	void NLR(bstNode<T>* root) {
+		if (root == nullptr) return;
+		cout << root->data << " ";
+		NLR(root->left);
+		NLR(root->right);
+	}
 
-		// inOder travesel - LNR
-		void LNR(Node<T>* root) {
-			if (root == nullptr) return;
-			LNR(root->left);
-			cout << root->key << " ";
-			LNR(root->right);
-		}
+	// Overloading
+	void NLR() {
+		NLR(root);
+	}
 
-		// posOder travesel - LRN
-		void LRN(Node<T>* root) {
-			if (root == nullptr) return;
-			LRN(root->left);
-			LRN(root->right);
-			cout << root->key << " ";
-		}
+	// Inoder travesel
+	void LNR(bstNode<T>* root) {
+		if (root == nullptr) return;
+		LNR(root->left);
+		cout << root->data << " ";
+		LNR(root->right);
+	}
 
-		// levelOder travesel 
-		void levelOder(Node<T>* root) {
-			if (root == nullptr) {
-				cout << "Tree is empty! \n";
-				return;
-			}
-			functionQueue::queue<Node<T>*> q;
-			q.init();
-			q.push(root);
-			q.push(NULL);
-			Node<T>* temp = NULL;
-			while (q.size() > 1) {
-				temp = q.front->key;
-				q.pop();
-				if (temp == NULL) { // Finished a level
-					q.push(NULL);
-					cout << endl; 
-				}
-				else {
-					if (temp->left != nullptr) {
-						q.push(temp->left);
-					}
-					if (temp->right != nullptr) {
-						q.push(temp->right);
-					}
-					cout << temp->key << " ";
-				}
-			}
-		}
+	// Overloading
+	void LNR() {
+		LNR(root);
+	}
 
-		//Seach a key in tree
-		Node<T>* search(Node<T>* root, T key) {
-			if (root == nullptr) {
-				throw "Key is not exist";
-				return nullptr;
-			}
-			if (key < root->key) {
-				search(root->left, key);
-			}
-			else if (key > root->key) {
-				search(root->right, key);
-			}
-			else if(key == root->key) {
-				return root;
-			}
-		}
+	// Posoder travesel
+	void LRN(bstNode<T>* root) {
+		if (root == nullptr) return;
+		LRN(root->left);
+		LRN(root->right);
+		cout << root->data << " ";
+	}
 
-		//Insert a node into a tree
-		bool insert(Node<T>* &root, T key) {
-			if (root == nullptr) {
-				Node<T>* temp = creatNode(key);
-				if (temp == nullptr) {
-					throw "can not creat node! \n";
-					return false;
-				}
-				root = temp;
-				return true;
-			}
-			else if (key < root->key) {
-				insert(root->left, key);
-			}
-			else if (key > root->key) {
-				insert(root->right, key);
-			}
-			else if (key == root->key) {
-				return true;
-			}
-		}
+	// Overloading
+	void LRN() {
+		LRN(root);
+	}
 
-		//Find the minimist node of right child 
-		void minimum(Node<T>*& root, Node<T>*& mini) {
-			if (root->left == nullptr) {
-				mini->key = root->key;
-				mini = root;
-				root = root->right;
+	// Leveloder travesel
+	void levelOder(bstNode<T>* root) {
+		if (root == nullptr) return;
+		queue<bstNode<T>* > q;
+		q.init();
+		q.push(root);
+		q.push(NULL);
+		bstNode<T>* newNode = root;
+		while (q.size() > 1) {
+			newNode = q.front->data;
+			q.pop();
+			if (newNode == NULL) {
+				cout << endl;
+				q.push(NULL);
 			}
 			else {
-				minimum(root->left, mini);
-			}
-		}
-
-		//Remove a node in tree
-		bool remove(Node<T>* &root, T data) {
-			if (root == nullptr) {
-				throw "Data is not exist! \n";
-				return false;
-			}
-			else if (data < root->key) {
-				remove(root->left, data);
-			}
-			else if (data > root->key) {
-				remove(root->right, data);
-			}
-			else if (data == root->key) {
-				Node<T>* mini = root;
-				if (root->left == nullptr) {
-					root = root->right;
+				if (newNode->left != nullptr) {
+					q.push(newNode->left);
 				}
-				else if (root->right == nullptr) {
-					root = root->left;
+				if (newNode->right != nullptr) {
+					q.push(newNode->right);
 				}
-				else {
-					minimum(root->right, mini);
-				}
-				delete mini;
+				cout << newNode->data << " ";
 			}
-			return true;
 		}
+	}
 
-		//Create tree from an array
-		Node<T>* arrayToTree(T a[], int n) {
-			Node<T>* temp = nullptr;
-			for (int i = 0; i < n; i++) {
-				insert(temp, a[i]);
+	// Overloading
+	void levelOder() {
+		levelOder(root);
+	}
+
+	// Print 2D Tree in a pretty way
+	void print2DTree(bstNode<T>* root, int space) {
+		if (root == nullptr) return;
+		space += 10;
+		print2DTree(root->right, space);
+		cout << endl;
+		for (int i = 10; i < space; i++) {
+			cout << " ";
+		}
+		cout << root->data << " ";
+		print2DTree(root->left, space);
+	}
+
+	// Overloading
+	void print2DTree() {
+		print2DTree(root, 0);
+	}
+
+	// Push a node into tree
+	void push(bstNode<T>* &root,T key) {
+		if (root == nullptr) {
+			bstNode<T>* newNode = makeBstNode(key);
+			root = newNode;
+		}
+		else if (key < root->data) {
+			push(root->left, key);
+		}
+		else if (key > root->data) {
+			push(root->right, key);
+		}
+		else if (key == root->data) {
+			;
+		}
+	}
+
+	// Overloading 
+	void push(T key) {
+		push(root, key);
+	}
+
+	// Find minimum of right child tree
+	void minimum(bstNode<T>* &root, bstNode<T>* &temp) {
+		if (root->left == nullptr) {
+			temp->data = root->data;
+			temp = root;
+			root = root->right;
+		}
+		else {
+			minimum(root->left, temp);
+		}
+	}
+
+	// Remove a node out of tree
+	void remove(bstNode<T>* &root, T key) {
+		if (key < root->data) {
+			remove(root->left, key);
+		}
+		else if (key > root->data) {
+			remove(root->right, key);
+		}
+		else {
+			bstNode<T>* temp = root;
+			if (root->left == nullptr) {
+				root = root->right;
 			}
-			return temp;
-		}
-
-		//Height of node
-		int height(Node<T>* root) {
-			if (root == nullptr) return 0;
-			return 1 + max(height(root->left), height(root->right));
-		}
-
-		//Create an array from a tree
-		void treeToArray(T a[], int &n, Node<T>* root) {
-			if (root == nullptr) return;
-			treeToArray(a, n, root->left);
-			a[n] = root->key;
-			n++;
-			treeToArray(a, n, root->right);
-		}
-
-		//Count the number of nodes in a tree
-		int countNode(Node<T>* root) {
-			int n=0;
-			T a[30];
-			treeToArray(a, n, root);
-			return n;
-		}
-
-		//Return sum of nodes in a tree
-		int sumNode(Node<T>* root) {
-			int n = 0;
-			int sum = 0;
-			T a[30];
-			treeToArray(a, n, root);
-			for (int i = 0; i < n; i++) {
-				sum += a[i];
+			else if (root->right == nullptr) {
+				root = root->left;
 			}
-			return sum;
-		}
-
-		//Height of node has a default key
-		int heightKey(Node<T>* root, T key) {
-			Node<T>* temp = search(root, key);
-			if (temp == nullptr) {
-				throw "Key is not exist!\n";
-				return 0;
+			else {
+				minimum(root, temp);
 			}
-			return height(temp);
+			delete temp;
+			temp = nullptr;
 		}
+	}
 
-		//Level of a node in tree
-		int levelOfNode(Node<T>* root, Node<T>* p) {
-			return height(root) - height(p);
+	// Overloading
+	void remove(T key) {
+		remove(root, key);
+	}
+
+	// search a node in tree
+	bstNode<T>* search(bstNode<T>* root,T key) {
+		if (root == nullptr) {
+			return nullptr;
 		}
-
-		//Count the number of node leaf in a tree
-		int countLeaf(Node<T>* root) {
-			if (root == nullptr) return 0;
-			if (root->left == nullptr && root->right == nullptr) return 1;
-			return countLeaf(root->left) + countLeaf(root->right);
+		else if(key < root->data) {
+			search(root->left, key);
 		}
-
-		//Count the number of node which is less than a key in a tree
-		int countLess(Node<T>* root, T key) {
-			int n = 0;
-			int cnt = 0;
-			T a[30];
-			treeToArray(a, n, root);
-			for (int i = 0; i < n; i++) {
-				if (key > a[i]) {
-					cnt++;
-				}
-			}
-			return cnt;
+		else if (key > root->data) {
+			search(root->right, key);
 		}
-
-		//Count the number of node which is greater than a key in a tree
-		int countGreat(Node<T>* root, T key) {
-			int n = 0;
-			int cnt = 0;
-			T a[30];
-			treeToArray(a, n, root);
-			for (int i = 0; i < n; i++) {
-				if (key < a[i]) {
-					cnt++;
-				}
-			}
-			return cnt;
+		else {
+			return root;
 		}
+	}
 
-		//Is the tree a binary search tree?
-		bool isBST(Node<T>* root) {
-			int n = 0;
-			T a[30];
-			treeToArray(a, n, root);
-			for (int i = 0; i < n-1; i++) {
-				if (a[i] >= a[i+1]) return false;
-			}
-			return true;
+	// Overloading
+	bstNode<T>* search(T key) {
+		return search(root, key);
+	}
+
+	// Find parent of a node in tree
+	bstNode<T>* findParent(bstNode<T>* root, T key) {
+		if (root == nullptr) return nullptr;
+		if (root->data == key) {
+			return root;
 		}
-
-		//Is node have 0 or 2 childs?
-		bool isFullChild(Node<T>* p) {
-			if (p->left == nullptr && p->right == nullptr) return true;
-			if (p->left != nullptr && p->right != nullptr) return true;
-			return false;
+		else if (key < root->data) {
+			if (root->left->data == key) return root;
+			findParent(root->left, key);
 		}
-
-		//Is the tree a full binary search tree?
-		bool isFullBST(Node<T>* root) {
-			if (root == nullptr) return true;
-			if (isBST(root) == true) {
-				if (isFullChild(root) == true) {
-					return isFullBST(root->left) && isFullBST(root->right);
-				}
-			}
-			return false;
+		else if (key > root->data) {
+			if (root->right->data == key) return root;
+			findParent(root->right, key);
 		}
+		return nullptr;
+	}
+
+	// Overloading
+	bstNode<T>* findParent(T key) {
+		return findParent(root, key);
+	}
+
+	// Find height of Node
+	int height(bstNode<T>* root) {
+		if (root == nullptr) return 0;
+		return 1 + max(height(root->left), height(root->right));
+	}
+
+	// Convert a tree into an array
+	void treeToArray(T a[], int &arraySize, bstNode<T>* root) {
+		treeToArray(a, arraySize, root->left);
+		a[arraySize] = root->data;
+		arraySize++;
+		treeToArray(a, arraySize, root->right);
+	}
+
+	// Overloading
+	void treeToArray(T a[], int& arraySize) {
+		treeToArray(a, arraySize, root);
+	}
+};
 
 
-	//Struct Tree
-	};
-
-//Namespace
+template<typename T>
+void buildTree(bstTree<T> &b, int size) {
+	b.init();
+	cout << "Enter value of tree: \n";
+	for (int i = 0; i < size; i++) {
+		int k = 0; cin >> k;
+		b.push(k);
+	}
 }
