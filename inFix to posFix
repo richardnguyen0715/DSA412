@@ -1,62 +1,84 @@
 #pragma once
 #include"stack.h"
 #include"queue.h"
-#include"BST.h"
-#include<string>
 
-using namespace std;
-
-//Check operator!
-bool isOperator(char x) {
-	if (x == '+' || x == '-' || x == '*' || x == '/' || x == '^') return true; //is an operator
-	return false;
-}
-
-//Return the priority of the operator
-int checkPriority(char x) {
-	if (x == '+' || x == '-') return 1;
+int priOpe(char x) {
+	if (x == '^') return 3;
 	else if (x == '*' || x == '/') return 2;
-	else if (x == '^') return 3;
-	else return -1;
+	else if (x == '+' || x == '-') return 1;
+	return -1;
 }
 
-//Return a queue contain a postfix expression
-functionQueue::queue<char> infixToPostfix(string s) {
-	functionStack::stack<char> st;
-	functionQueue::queue<char> q;
-	st.init();
+Num initNum() {
+	Num temp;
+	temp.ope = ' ';
+	temp.val[0] = ' ';
+	return temp;
+}
+
+queue<Num> convertToPosfix(char source[]) {
+	stack<Num> s;
+	s.init();
+	queue<Num> q;
 	q.init();
-	int len = s.length();
-	for (int i = 0; i < len; i++) {
-		char c = s[i];
-		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')){
-			q.push(c);
+	int i = 0;
+	while (source[i] != '\0') {
+		if (source[i] == ' ') {
+			i++;
 		}
-		else if (c == '(') {
-			st.push(c);
+		else if (source[i] == '(') {
+			Num temp = initNum();
+			temp.ope = '(';
+			s.push(temp);
+			i++;
 		}
-		else if (c == ')') {
-			while (st.top->key != '(') {
-				q.push(st.top->key);
-				st.pop();
+		else if (checkOperator(source, i) == true) {
+			while (s.empty() != true && priOpe(s.top->data.ope) >= priOpe(source[i])) {
+				q.push(s.top->data);
+				s.pop();
 			}
-			if (st.top != nullptr) {
-				st.pop();
-			}
+			Num temp = initNum();
+			temp.ope = source[i];
+			s.push(temp);
+			i++;
 		}
-		else if(isOperator(c)) {
-			while (!st.empty()
-				&& checkPriority(c) <= checkPriority(st.top->key)) {
-				q.push(st.top->key);
-				st.pop();
+		else if (source[i] == ')') {
+			while (s.top->data.ope != '(') {
+				q.push(s.top->data);
+				s.pop();
 			}
-			st.push(c);
+			if (s.top != nullptr) s.pop();
+			i++;
 		}
+		else {
+			Num temp = initNum();
+			int sPos = i;
+			while (source[i] != ' ' && source[i] != '\0') {
+				i++;
+			}
+			int ePos = i - 1;
+			cutNum(source, temp, sPos, ePos);
+			q.push(temp);
+		}
+		
 	}
 
-	while (!st.empty()) {
-		q.push(st.top->key);
-		st.pop();
+	while (s.empty() != true) {
+		q.push(s.top->data);
+		s.pop();
 	}
-		return q;
+	return q;
+}
+
+
+void printResult(queue<Num> q) {
+	if (q.empty() == true) return;
+	Node<Num>* temp = q.front;
+	while (temp != nullptr) {
+		if (temp->data.val[0] != ' ') cout << temp->data.val << " ";
+		else cout << temp->data.ope << " ";
+		temp = temp->next;
 	}
+}
+
+
